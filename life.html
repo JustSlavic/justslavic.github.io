@@ -13,6 +13,10 @@
   <p id="cellsNumLabel">cells: 0</p>
   <br>
   <button class="button" id="pauseButton" onclick="pause=!pause; if (!pause) camera.draw();">Pause</button>
+  <button class="button" id="moveLeftButton" onclick="camera.move(-10, 0);">Left</button>
+  <button class="button" id="moveUpButton" onclick="camera.move(0, 10);">Up</button>
+  <button class="button" id="moveDownButton" onclick="camera.move(0, -10);">Down</button>
+  <button class="button" id="moveRightButton" onclick="camera.move(10, 0);">Right</button>
   <script type="text/javascript">
     // Javascript code
     var canvas = document.getElementById("field");
