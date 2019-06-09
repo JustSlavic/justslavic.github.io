@@ -91,10 +91,15 @@
         if (roll < this.mutationProbability) {
           cell.Rcolor += Math.floor(Math.random() * 30) - 15;
           if (cell.Rcolor < 0) cell.Rcolor = 0;
+          if (cell.Rcolor > 0xff) cell.Rcolor = 0xff;
+
           cell.Gcolor += Math.floor(Math.random() * 30) - 15;
           if (cell.Gcolor < 0) cell.Gcolor = 0;
+          if (cell.Gcolor > 0xff) cell.Gcolor = 0xff;
+
           cell.Bcolor += Math.floor(Math.random() * 30) - 15;
           if (cell.Bcolor < 0) cell.Bcolor = 0;
+          if (cell.Bcolor > 0xff) cell.Bcolor = 0xff;
         }
         // console.log('#' + ('0' + this.Rcolor.toString(16)).slice(-2) + ('0' + this.Gcolor.toString(16)).slice(-2) + ('0' + this.Bcolor.toString(16)).slice(-2));
         return cell;
