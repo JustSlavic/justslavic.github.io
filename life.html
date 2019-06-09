@@ -100,7 +100,7 @@
 
           readyToDivide(crowd) {
             const roll = Math.random();
-            return roll < divideProbability;
+            return roll < divideProbability - crowd*crowdCoefficient;
           }
 
           divide() {
@@ -131,7 +131,7 @@
 
           die(crowd) {
             const roll = Math.random();
-            return roll - crowd*crowdCoefficient < dieProbability;
+            return roll < dieProbability;
           }
         }
 
