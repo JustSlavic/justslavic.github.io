@@ -18,16 +18,16 @@
       <p id="timeLabel">time: 0</p>
       <p id="cellsNumLabel">cells: 0</p>
       <p id="spawnProbLabel" style="display:inline">spawn: 0</p>
-      <input class="input" id="spawnProbInput" type="range" min="0" max="1000" value="5" onchange="spawnProbability=this.value/this.max; document.getElementById(&quot;spawnProbLabel&quot;).innerHTML = `spawn: ${this.value/this.max}`;">
+      <input class="input" id="spawnProbInput" type="range" size="20" min="0" max="1000" value="5" onchange="spawnProbability=this.value/this.max; document.getElementById(&quot;spawnProbLabel&quot;).innerHTML = `spawn: ${this.value/this.max}`;">
       <br>
       <p id="divideProbLabel" style="display:inline">divide: 0</p>
-      <input class="input" id="divideProbInput" type="range" min="0" max="1000" value="100" onchange="divideProbability=this.value/this.max; document.getElementById(&quot;divideProbLabel&quot;).innerHTML = `divide: ${this.value/this.max}`;">
+      <input class="input" id="divideProbInput" type="range" size="20" min="0" max="1000" value="100" onchange="divideProbability=this.value/this.max; document.getElementById(&quot;divideProbLabel&quot;).innerHTML = `divide: ${this.value/this.max}`;">
       <br>
       <p id="dieProbLabel" style="display:inline">die: 0</p>
-      <input class="input" id="dieProbInput" type="range" min="0" max="1000" value="50" onchange="dieProbability=this.value/this.max; document.getElementById(&quot;dieProbLabel&quot;).innerHTML = `die: ${this.value/this.max}`;">
+      <input class="input" id="dieProbInput" type="range" size="20" min="0" max="1000" value="50" onchange="dieProbability=this.value/this.max; document.getElementById(&quot;dieProbLabel&quot;).innerHTML = `die: ${this.value/this.max}`;">
       <br>
       <p id="mutateProbLabel" style="display:inline">mutate: 0</p>
-      <input class="input" id="mutateProbInput" type="range" min="0" max="1000" value="100" onchange="mutateProbability=this.value/this.max; document.getElementById(&quot;mutateProbLabel&quot;).innerHTML = `mutate: ${this.value/this.max}`;">
+      <input class="input" id="mutateProbInput" type="range" size="20" min="0" max="1000" value="100" onchange="mutateProbability=this.value/this.max; document.getElementById(&quot;mutateProbLabel&quot;).innerHTML = `mutate: ${this.value/this.max}`;">
       <br>
       <p id="crowdCoeffLabel" style="display:inline">crowdness coefficient:</p>
       <input class="input" id="crowdCoeffInput" value="0.00005">
