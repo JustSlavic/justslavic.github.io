@@ -22,9 +22,9 @@
 		
 		var count_dice_score = function(dice1, dice2) {
 			if (dice1 == dice2) {
-				player_scores[current_player] += dice1 * 4;
+				return dice1 * 4;
 			} else {
-				player_scores[current_player] += dice1 + dice2;
+				return = dice1 + dice2;
 			}
 		};
 		
@@ -51,9 +51,11 @@
 				dice[current_dice] = 6;
 			}
 			
-			if (dice_count == 2) {
-				count_dice_score(dice[0], dice[1]);
-				dice_count = 0;
+			current_dice = (current_dice + 1) % 2;
+			
+			if (current_dice == 0) {
+				player_scores[current_player] += count_dice_score(dice[0], dice[1]);
+				current_player = (current_player + 1) % 2;
 			}
 		};
 		document.addEventListener("keydown", keyDownHandler, false);
