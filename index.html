@@ -8,8 +8,56 @@
 <p>
 	<h4>Hello, World!</h4>
 </p>
+	<div>
+		<p id="player1"></p>
+		<p id="player2"></p>
+	</div>
 <p>
 	<a href="./life.html">Life</a>
+	<script type="text/javascript">
+		var player_scores = [ 0, 0 ];
+		var current_player = 0
+		var dice = [ 0, 0 ];
+		var current_dice = 0;
+		
+		var count_dice_score = function(dice1, dice2) {
+			if (dice1 == dice2) {
+				player_scores[current_player] += dice1 * 4;
+			} else {
+				player_scores[current_player] += dice1 + dice2;
+			}
+		};
+		
+		const keyDownHandler = function (e) {
+			if (e.code === 'Digit1') {
+				dice[current_dice] = 1;
+			}
+			if (e.code === 'Digit2') { 
+				dice[current_dice] = 2;
+			}
+			if (e.code === 'Digit3') {
+				dice[current_dice] = 3;
+			}
+			if (e.code === 'Digit4') {
+				dice[current_dice] = 4;
+			}
+			if (e.code === 'Digit5') {
+				dice[current_dice] = 5;
+			}
+			if (e.code === 'Digit6') {
+				dice[current_dice] = 6;
+			}
+			
+			if (dice_count == 2) {
+				count_dice_score(dice[0], dice[1]);
+				dice_count = 0;
+				
+				getElementById("player1").innerText = "Player 1: " + player_scores[0].toString();
+				getElementById("player2").innerText = "Player 2:" + player_scores[1].toString();
+			}
+		};
+		document.addEventListener("keydown", keyDownHandler, false);
+	</script>
 </p>
 
 </body>
