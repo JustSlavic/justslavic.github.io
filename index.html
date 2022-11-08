@@ -29,6 +29,9 @@
 		};
 		
 		const keyDownHandler = function (e) {
+			document.getElementById("player1").innerText = "Player 1: " + player_scores[0].toString();
+			document.getElementById("player2").innerText = "Player 2: " + player_scores[1].toString();
+			
 			if (e.code === 'Digit1') {
 				dice[current_dice] = 1;
 			}
@@ -51,9 +54,6 @@
 			if (dice_count == 2) {
 				count_dice_score(dice[0], dice[1]);
 				dice_count = 0;
-				
-				getElementById("player1").innerText = "Player 1: " + player_scores[0].toString();
-				getElementById("player2").innerText = "Player 2:" + player_scores[1].toString();
 			}
 		};
 		document.addEventListener("keydown", keyDownHandler, false);
