@@ -125,6 +125,9 @@
 // ── Data ──
 const DATA = {
   events: [
+    { title: "The Big Bang", date: "-13800000000-01-01", topic: "Prehistory" },
+    { title: "The birth of the Sun", date: "-4600000000-01-01", topic: "Prehistory" },
+    { title: "The birth of the Earth", date: "-4540000000-01-01", topic: "Prehistory" },
     { title: "Fall of the Western Roman Empire", date: "0476-09-04", topic: "Roman Empire" },
     { title: "Coronation of Charlemagne", date: "0800-12-25", topic: "France" },
     { title: "Norman Conquest of England", date: "1066-10-14", topic: "England" },
@@ -165,15 +168,21 @@ const DATA = {
   ],
   periods: [
     { title: "Alexander the Great", started: "-0356-07-21", ended: "-0323-06-11", topic: "Wars & Conflicts",
-      background: "file:///D:/Alexander_the_Great.jpg" },
+      background: "./images/history/Alexander_the_Great.jpg" },
     { title: "The Crusades", started: "1096-11-27", ended: "1291-05-18", topic: "Wars & Conflicts" },
     { title: "Western Roman Empire", started: "0395-01-01", ended: "0476-01-01", topic: "Roman Empire" },
     { title: "Eastern Roman Empire", started: "0330-01-01", ended: "1453-05-29", topic: "Eastern Roman Empire" },
     { title: "Mongol Empire", started: "1206-01-01", ended: "1368-01-01", topic: "Empires & States" },
     { title: "The Renaissance", started: "1400-01-01", ended: "1600-01-01", topic: "Culture & Ideas" },
     { title: "Age of Exploration", started: "1500-01-01", ended: "1700-01-01", topic: "Exploration" },
-    { title: "The Enlightenment", started: "1685-01-01", ended: "1815-01-01", topic: "Culture & Ideas" },
-    { title: "Industrial Revolution", started: "1760-01-01", ended: "1840-01-01", topic: "Economy2", background: "file:///D:/industrial_revolution.png" },
+    { title: "The Enlightenment", started: "1685-01-01", ended: "1815-01-01", topic: "Culture & Ideas",
+      background: "./images/history/Age_of_Enlightenment.jpg",
+      description: "The Age of Enlightenment, also known as the Age of Reason or simply the Enlightenment, was a period of intellectual and cultural flourishing in Europe and Western civilization, emerging in the late 17th century in Western Europe. Characterized by an emphasis on reason, empirical evidence, and the scientific method, the Enlightenment promoted ideals of individual liberty, religious tolerance, progress, and natural rights. Its thinkers advocated for constitutional government, the separation of church and state, and the application of rational principles to social and political reform.",
+    },
+    { title: "Industrial Revolution", started: "1760-01-01", ended: "1840-01-01", topic: "Economy2",
+      background: "./images/history/Industrial_Revolution.avif",
+      description: "The Industrial Revolution, was a transitional period of the global economy toward more widespread, efficient and stable manufacturing processes, succeeding the Second Agricultural Revolution. This transition included going from hand production methods to machines; new chemical manufacturing and iron production processes; the increasing use of water power and steam power; the development of machine tools; and rise of the mechanised factory system."
+    },
     { title: "Napoleonic Wars", started: "1803-05-18", ended: "1815-11-20", topic: "Wars & Conflicts" },
     { title: "American Civil War", started: "1861-04-12", ended: "1865-05-09", topic: "Wars & Conflicts" },
     { title: "First World War", started: "1914-07-28", ended: "1918-11-11", topic: "Wars & Conflicts" },
@@ -181,7 +190,14 @@ const DATA = {
     { title: "Cold War", started: "1947-03-12", ended: "1991-12-26", topic: "Wars & Conflicts" },
     { title: "Space Race", started: "1957-10-04", ended: "1975-07-17", topic: "Science & Technology" },
     // { title: "Leonardo da Vinci", started: "1452-04-15", ended: "1519-05-02", topic: "Culture & Ideas" },
-    { title: "Classical Athens", started: "-0508-01-01", ended: "-0322-01-01", topic: "Greece" },
+    {
+      title: "Classical Athens",
+      started: "-0508-01-01",
+      ended: "-0322-01-01",
+      topic: "Greece",
+      background: "./images/history/Classical_Athens.jpg",
+      description: "Classical Greece was a period of around 200 years (the 5th and 4th centuries BC) in Ancient Greece. Much of the early defining mathematics, science, artistic thought (architecture, sculpture), theatre, literature, philosophy, and politics of Western civilization derive from this period of Greek history, which had a powerful influence on the later Roman Empire."
+    },
     { title: "Roman Republic", started: "-0509-01-01", ended: "-0027-01-01", topic: "Roman Empire" },
     { title: "Roman Empire", started: "-0027-01-01", ended: "0395-01-01", topic: "Roman Empire" },
     { title: "Early Dynastic Period", started: "-3150-01-01", ended: "-2686-01-01", topic: "Egypt" },
@@ -195,18 +211,19 @@ const DATA = {
     { title: "Tsardom of Russia", started: "1547-01-16", ended: "1721-11-02", topic: "Russia" },
     { title: "Russian Empire", started: "1721-11-02", ended: "1917-09-01", topic: "Russia" },
     { title: "Russian Civil War", started: "1917-11-07", ended: "1922-10-25", topic: "Russia" },
-    { title: "USSR", started: "1922-12-30", ended: "1991-12-26", topic: "Russia", background: "file:///D:/ussr.png" },
-    { title: "Russia", started: "1991-12-26", ended: "Now", topic: "Russia", background: "file:///D:/russia.jpg" },
-    { title: "Boris Yeltsin", started: "1991-07-10", ended: "1999-12-31", topic: "Ruler of Russia" },
-    { title: "Putin", started: "1999-12-31", ended: "2008-05-07", topic: "Ruler of Russia" },
-    { title: "Medvedev", started: "2008-05-07", ended: "2012-05-07", topic: "Ruler of Russia" },
-    { title: "Putin", started: "2012-05-07", ended: "Now", topic: "Ruler of Russia" },
+    { title: "USSR", started: "1922-12-30", ended: "1991-12-26", topic: "Russia", background: "./images/history/USSR.png" },
+    { title: "Russia", started: "1991-12-26", ended: "Now", topic: "Russia",
+      background: "./images/history/Russia.jpg" },
+    { title: "Boris Yeltsin", started: "1991-07-10", ended: "1999-12-31", topic: "Rulers of Russia" },
+    { title: "Putin", started: "1999-12-31", ended: "2008-05-07", topic: "Rulers of Russia" },
+    { title: "Medvedev", started: "2008-05-07", ended: "2012-05-07", topic: "Rulers of Russia" },
+    { title: "Putin", started: "2012-05-07", ended: "Now", topic: "Rulers of Russia" },
 
     { title: "The American Civil War", started: "1861-04-12", ended: "1865-05-26", topic: "USA",
-      background: "file:///D:/usa.jpg",
+      background: "./images/history/USA.jpg",
       description: "The war in the United States between the Union ('the North') and the Confederacy ('the South'), which was formed in 1861 by states that had seceded from the Union to preserve slavery in the United States, which they saw as threatened because of the election of Abraham Lincoln and the growing abolitionist movement in the North."
     },
-    { title: "USA", started: "1776-07-04", ended: "Now", topic: "USA", background: "file:///D:/usa.jpg" },
+    { title: "USA", started: "1776-07-04", ended: "Now", topic: "USA", background: "./images/history/USA.jpg" },
 
     { title: "George Washington", started: "1789-04-30", ended: "1797-03-04", topic: "Presidents of the USA" },
     { title: "John Adams", started: "1797-03-04", ended: "1801-03-04", topic: "Presidents of the USA" },
@@ -218,8 +235,43 @@ const DATA = {
     { title: "Martin Van Buren", started: "1837-03-04", ended: "1841-03-04", topic: "Presidents of the USA" },
     { title: "William Henry Harrison", started: "1841-03-04", ended: "1841-04-04", topic: "Presidents of the USA" },
     { title: "John Tyler", started: "1841-04-04", ended: "1845-03-04", topic: "Presidents of the USA" },
-    { title: "James K. Polk", started: "1845-04-04", ended: "1849-03-04", topic: "Presidents of the USA" },
-    { title: "Zachary Taylor", started: "1849-04-04", ended: "1850-07-09", topic: "Presidents of the USA" },
+    { title: "James K. Polk", started: "1845-03-04", ended: "1849-03-04", topic: "Presidents of the USA" },
+    { title: "Zachary Taylor", started: "1849-03-04", ended: "1850-07-09", topic: "Presidents of the USA" },
+    { title: "Millard Fillmore", started: "1850-07-09", ended: "1853-03-04", topic: "Presidents of the USA" },
+    { title: "Franklin Pierce", started: "1853-03-04", ended: "1857-03-04", topic: "Presidents of the USA" },
+    { title: "James Buchanan", started: "1857-03-04", ended: "1861-03-04", topic: "Presidents of the USA" },
+    { title: "Abraham Lincoln", started: "1861-03-04", ended: "1865-04-15", topic: "Presidents of the USA" },
+    { title: "Andrew Johnson", started: "1865-04-15", ended: "1869-03-04", topic: "Presidents of the USA" },
+    { title: "Ulysses S. Grant", started: "1869-03-04", ended: "1877-03-04", topic: "Presidents of the USA" },
+    { title: "Rutherford B. Hayes", started: "1877-03-04", ended: "1881-03-04", topic: "Presidents of the USA" },
+    { title: "James A. Garfield", started: "1881-03-04", ended: "1881-09-19", topic: "Presidents of the USA" },
+    { title: "Chester A. Arthur", started: "1881-09-19", ended: "1885-03-04", topic: "Presidents of the USA" },
+    { title: "Grover Cleveland", started: "1885-03-04", ended: "1889-03-04", topic: "Presidents of the USA" },
+    { title: "Benjamin Harrison", started: "1889-03-04", ended: "1893-03-04", topic: "Presidents of the USA" },
+    { title: "Grover Cleveland", started: "1893-03-04", ended: "1897-03-04", topic: "Presidents of the USA" },
+    { title: "William McKinley", started: "1897-03-04", ended: "1901-09-14", topic: "Presidents of the USA" },
+    { title: "Theodore Roosevelt", started: "1901-09-14", ended: "1909-03-04", topic: "Presidents of the USA" },
+    { title: "William Howard Taft", started: "1909-03-04", ended: "1913-03-04", topic: "Presidents of the USA" },
+    { title: "Woodrow Wilson", started: "1913-03-04", ended: "1921-03-04", topic: "Presidents of the USA" },
+    { title: "Warren G. Harding", started: "1921-03-04", ended: "1923-08-02", topic: "Presidents of the USA" },
+    { title: "Calvin Coolidge", started: "1923-08-02", ended: "1929-03-04", topic: "Presidents of the USA" },
+    { title: "Herbert Hoover", started: "1929-03-04", ended: "1933-03-04", topic: "Presidents of the USA" },
+    { title: "Franklin D. Roosevelt", started: "1933-03-04", ended: "1945-04-12", topic: "Presidents of the USA" },
+    { title: "Harry S. Truman", started: "1945-04-12", ended: "1953-01-20", topic: "Presidents of the USA" },
+    { title: "Dwight D. Eisenhower", started: "1953-01-20", ended: "1961-01-20", topic: "Presidents of the USA" },
+    { title: "John F. Kennedy", started: "1961-01-20", ended: "1963-11-22", topic: "Presidents of the USA" },
+    { title: "Lyndon B. Johnson", started: "1963-11-22", ended: "1969-01-20", topic: "Presidents of the USA" },
+    { title: "Richard Nixon", started: "1969-01-20", ended: "1974-08-09", topic: "Presidents of the USA" },
+    { title: "Gerald Ford", started: "1974-08-09", ended: "1977-01-20", topic: "Presidents of the USA" },
+    { title: "Jimmy Carter", started: "1977-01-20", ended: "1981-01-20", topic: "Presidents of the USA" },
+    { title: "Ronald Reagan", started: "1981-01-20", ended: "1989-01-20", topic: "Presidents of the USA" },
+    { title: "George H. W. Bush", started: "1989-01-20", ended: "1993-01-20", topic: "Presidents of the USA" },
+    { title: "Bill Clinton", started: "1993-01-20", ended: "2001-01-20", topic: "Presidents of the USA" },
+    { title: "George W. Bush", started: "2001-01-20", ended: "2009-01-20", topic: "Presidents of the USA" },
+    { title: "Barack Obama", started: "2009-01-20", ended: "2017-01-20", topic: "Presidents of the USA" },
+    { title: "Donald Trump", started: "2017-01-20", ended: "2021-01-20", topic: "Presidents of the USA" },
+    { title: "Joe Biden", started: "2021-01-20", ended: "2025-01-20", topic: "Presidents of the USA" },
+    { title: "Donald Trump", started: "2025-01-20", ended: "Now", topic: "Presidents of the USA" },
 
     { title: "COVID-19 pandemic", started: "2020-01-30", ended: "2023-05-05", topic: "Science & Technology" },
     { title: "Ottoman Empire", started: "1299-01-01", ended: "1920-08-10", topic: "Turks" },
@@ -227,6 +279,12 @@ const DATA = {
     { title: "Paleolithic (Old Stone Age)", started: "-3300000-01-01", ended: "-11600-01-01", topic: "Prehistory" },
     { title: "Mesolithic (Middle Stone Age)", started: "-11600-01-01", ended: "-6000-01-01", topic: "Prehistory" },
     { title: "Neolithic (New Stone Age)", started: "-6000-01-01", ended: "-3300-01-01", topic: "Prehistory" },
+    { title: "Bronze Age", started: "-3300-01-01", ended: "-1200-01-01", topic: "Prehistory" },
+    { title: "Late Bronze Age Collapse", started: "-1100-01-01", ended: "-750-01-01",
+      topic: "Prehistory",
+      description: "The Late Bronze Age collapse was a period of societal collapse in the Mediterranean basin during the late 13th to early 12th century BC. The collapse was sudden, violent, and culturally disruptive for many Bronze Age civilizations, creating a sharp material decline for the region's previously existing powers."
+    },
+
     { title: "Triassic (early dinosaurs)", started: "-231000000-01-01", ended: "-201000000-01-01", topic: "Prehistory" },
     { title: "Jurassic", started: "-201000000-01-01", ended: "-145000000-01-01", topic: "Prehistory" },
     { title: "Cretaceous", started: "-145000000-01-01", ended: "-66000000-01-01", topic: "Prehistory" },
@@ -686,7 +744,10 @@ function handleHover(mx, my) {
       const cy = getRowCenterY(row);
       const barY = cy - PERIOD_BAR_HEIGHT / 2;
       if (mx >= x1 && mx <= x2 && my >= barY && my <= barY + PERIOD_BAR_HEIGHT) {
-        hit = { title: p.title, date: formatDate(p.started) + ' \u2014 ' + formatDate(p.ended), topic: p.topic, background: p.background, description: p.description };
+        let startDate = formatDate(p.started)
+        console.log(p.ended.toLowerCase())
+        let endDate = formatDate(p.ended, p.ended.toLowerCase() == 'now')
+        hit = { title: p.title, date: startDate + ' \u2014 ' + endDate, topic: p.topic, background: p.background, description: p.description };
         break;
       }
     }
