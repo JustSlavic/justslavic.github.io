@@ -1,65 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>just_slavic</title>
+    <title>just_slavic</title>
 </head>
 <body>
-
 <p>
-	<h4>Hello, World!</h4>
-</p>
-	<div>
-		<p id="player1" style="color: #E74C3C">Player 1: 0</p>
-		<p id="player2" style="color: #3498DB">Player 2: 0</p>
-	</div>
-<p>
-	<a href="./life.html">Life</a>
-	<script type="text/javascript">
-		var player_scores = [ 0, 0 ];
-		var current_player = 0
-		var dice = [ 0, 0 ];
-		var current_dice = 0;
-		
-		var count_dice_score = function(dice1, dice2) {
-			if (dice1 == dice2) {
-				return dice1 * 4;
-			} else {
-				return = dice1 + dice2;
-			}
-		};
-		
-		const keyDownHandler = function (e) {
-			document.getElementById("player1").innerText = "Player 1: " + player_scores[0].toString();
-			document.getElementById("player2").innerText = "Player 2: " + player_scores[1].toString();
-			
-			if (e.code === 'Digit1') {
-				dice[current_dice] = 1;
-			}
-			if (e.code === 'Digit2') { 
-				dice[current_dice] = 2;
-			}
-			if (e.code === 'Digit3') {
-				dice[current_dice] = 3;
-			}
-			if (e.code === 'Digit4') {
-				dice[current_dice] = 4;
-			}
-			if (e.code === 'Digit5') {
-				dice[current_dice] = 5;
-			}
-			if (e.code === 'Digit6') {
-				dice[current_dice] = 6;
-			}
-			
-			current_dice = (current_dice + 1) % 2;
-			
-			if (current_dice == 0) {
-				player_scores[current_player] += count_dice_score(dice[0], dice[1]);
-				current_player = (current_player + 1) % 2;
-			}
-		};
-		document.addEventListener("keydown", keyDownHandler, false);
-	</script>
+    <a href="./life.html">Life</a>
+    <a href="./history.html">Life</a>
 </p>
 
 </body>

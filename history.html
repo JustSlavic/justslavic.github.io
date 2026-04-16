@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>History Timeline</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #1a1a2e;
+    color: #e0e0e0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: hidden;
+    height: 100vh;
+    user-select: none;
+  }
+
+  #timeline-container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    cursor: grab;
+  }
+  #timeline-container.grabbing { cursor: grabbing; }
+
+  #canvas {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+  }
+
+  .tooltip {
+    position: absolute;
+    background: #16213e;
+    border: 1px solid #0f3460;
+    border-radius: 8px;
+    padding: 14px 18px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s;
+    font-size: 14px;
+    min-width: 180px;
+    max-width: 340px;
+    z-index: 100;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+    overflow: hidden;
+  }
+  .tooltip.visible { opacity: 1; }
+  .tooltip .tt-bg {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-size: cover;
+    background-position: top left;
+    background-repeat: no-repeat;
+    -webkit-mask-image: linear-gradient(135deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 85%);
+    mask-image: linear-gradient(135deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 85%);
+    pointer-events: none;
+    display: none;
+  }
+  .tooltip .tt-content { position: relative; z-index: 1; }
+  .tooltip .tt-topic { font-size: 11px; margin-bottom: 3px; font-weight: 600; }
+  .tooltip .tt-title { font-weight: 600; color: #fff; font-size: 15px; margin-bottom: 4px; }
+  .tooltip .tt-date { color: #8899aa; font-size: 12px; }
+  .tooltip .tt-desc { color: #b0bec5; font-size: 12px; margin-top: 6px; line-height: 1.4; display: none; }
+
+  #controls {
+    position: fixed;
+    top: 12px; right: 12px;
+    display: flex; gap: 6px;
+    z-index: 50;
+  }
+  #controls button {
+    background: #16213e;
+    border: 1px solid #0f3460;
+    color: #e0e0e0;
+    width: 32px; height: 32px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  #controls button:hover { background: #1a2a4e; }
+
+  #title-bar {
+    position: fixed;
+    top: 12px; left: 12px;
+    z-index: 50;
+    font-size: 20px;
+    font-weight: 700;
+    color: #e0e0e0;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+  }
+</style>
+</head>
+<body>
+
+<div id="title-bar">Timeline of History</div>
+
+<div id="controls">
+  <button id="btn-zoom-in" title="Zoom in">+</button>
+  <button id="btn-zoom-out" title="Zoom out">&minus;</button>
+  <button id="btn-reset" title="Reset view">&#8634;</button>
+</div>
+
+<div id="timeline-container">
+  <canvas id="canvas"></canvas>
+</div>
+<div class="tooltip" id="tooltip">
+  <div class="tt-bg" id="tt-bg"></div>
+  <div class="tt-content">
+    <div class="tt-topic" id="tt-topic"></div>
+    <div class="tt-title" id="tt-title"></div>
+    <div class="tt-date" id="tt-date"></div>
+    <div class="tt-desc" id="tt-desc"></div>
+  </div>
+</div>
+
+<script>
+// ── Data ──
+const DATA = {
+  events: [
+    { title: "Fall of the Western Roman Empire", date: "0476-09-04", topic: "Roman Empire" },
+    { title: "Coronation of Charlemagne", date: "0800-12-25", topic: "France" },
+    { title: "Norman Conquest of England", date: "1066-10-14", topic: "England" },
+    { title: "Fall of Constantinople", date: "1453-05-29", topic: "Eastern Roman Empire" },
+    { title: "Columbus reaches the Americas", date: "1492-10-12", topic: "Exploration" },
+    { title: "Martin Luther's 95 Theses", date: "1517-10-31", topic: "Culture & Ideas" },
+    { title: "Defeat of the Spanish Armada", date: "1588-08-08", topic: "Spain" },
+    { title: "Galileo observes Jupiter's moons", date: "1610-01-07", topic: "Science & Technology" },
+    { title: "Execution of King Charles I", date: "1649-01-30", topic: "England" },
+    { title: "Isaac Newton publishes Principia", date: "1687-07-05", topic: "Science & Technology" },
+    { title: "Declaration of Independence signed", date: "1776-07-04", topic: "USA" },
+    { title: "Storming of the Bastille", date: "1789-07-14", topic: "France" },
+    { title: "Battle of Trafalgar", date: "1805-10-21", topic: "Spain" },
+    { title: "Battle of Waterloo", date: "1815-06-18", topic: "France" },
+    { title: "Abolition of Slavery in British Empire", date: "1833-08-28", topic: "England" },
+    { title: "Communist Manifesto published", date: "1848-02-21", topic: "Culture & Ideas" },
+    { title: "Abraham Lincoln assassinated", date: "1865-04-15", topic: "USA" },
+    { title: "Opening of the Suez Canal", date: "1869-11-17", topic: "Science & Technology" },
+    { title: "Assassination of Archduke Franz Ferdinand", date: "1914-06-28", topic: "Wars & Conflicts" },
+    { title: "Russian October Revolution", date: "1917-11-07", topic: "Russia" },
+    { title: "Treaty of Versailles signed", date: "1919-06-28", topic: "Wars & Conflicts" },
+    { title: "Wall Street Crash", date: "1929-10-29", topic: "Economy" },
+    { title: "D-Day: Allied invasion of Normandy", date: "1944-06-06", topic: "Wars & Conflicts" },
+    { title: "Bombing of Hiroshima", date: "1945-08-06", topic: "Wars & Conflicts" },
+    { title: "United Nations founded", date: "1945-10-24", topic: "Politics & Law" },
+    { title: "India gains independence", date: "1947-08-15", topic: "Revolutions" },
+    { title: "First human in space (Yuri Gagarin)", date: "1961-04-12", topic: "Science & Technology" },
+    { title: "Assassination of JFK", date: "1963-11-22", topic: "Politics & Law" },
+    { title: "Moon landing (Apollo 11)", date: "1969-07-20", topic: "Science & Technology" },
+    { title: "Fall of the Berlin Wall", date: "1989-11-09", topic: "Revolutions" },
+    { title: "Dissolution of the Soviet Union", date: "1991-12-26", topic: "Revolutions" },
+    { title: "9/11 Attacks", date: "2001-09-11", topic: "Wars & Conflicts" },
+    { title: "Global Financial Crisis begins", date: "2008-09-15", topic: "Economy2" },
+    { title: "Unification of Upper and Lower Egypt", date: "-3150-01-01", topic: "Egypt" },
+    { title: "Annexation by the Roman Empire", date: "-0030-01-01", topic: "Egypt" },
+    { title: "The world's first metro opened", date: "1863-01-10", topic: "Science & Technology" },
+    { title: "The world's first movie produced", date: "1888-10-14", topic: "Science & Technology" },
+  ],
+  periods: [
+    { title: "Alexander the Great", started: "-0356-07-21", ended: "-0323-06-11", topic: "Wars & Conflicts",
+      background: "file:///D:/Alexander_the_Great.jpg" },
+    { title: "The Crusades", started: "1096-11-27", ended: "1291-05-18", topic: "Wars & Conflicts" },
+    { title: "Western Roman Empire", started: "0395-01-01", ended: "0476-01-01", topic: "Roman Empire" },
+    { title: "Eastern Roman Empire", started: "0330-01-01", ended: "1453-05-29", topic: "Eastern Roman Empire" },
+    { title: "Mongol Empire", started: "1206-01-01", ended: "1368-01-01", topic: "Empires & States" },
+    { title: "The Renaissance", started: "1400-01-01", ended: "1600-01-01", topic: "Culture & Ideas" },
+    { title: "Age of Exploration", started: "1500-01-01", ended: "1700-01-01", topic: "Exploration" },
+    { title: "The Enlightenment", started: "1685-01-01", ended: "1815-01-01", topic: "Culture & Ideas" },
+    { title: "Industrial Revolution", started: "1760-01-01", ended: "1840-01-01", topic: "Economy2", background: "file:///D:/industrial_revolution.png" },
+    { title: "Napoleonic Wars", started: "1803-05-18", ended: "1815-11-20", topic: "Wars & Conflicts" },
+    { title: "American Civil War", started: "1861-04-12", ended: "1865-05-09", topic: "Wars & Conflicts" },
+    { title: "First World War", started: "1914-07-28", ended: "1918-11-11", topic: "Wars & Conflicts" },
+    { title: "Second World War", started: "1939-09-01", ended: "1945-09-02", topic: "Wars & Conflicts" },
+    { title: "Cold War", started: "1947-03-12", ended: "1991-12-26", topic: "Wars & Conflicts" },
+    { title: "Space Race", started: "1957-10-04", ended: "1975-07-17", topic: "Science & Technology" },
+    // { title: "Leonardo da Vinci", started: "1452-04-15", ended: "1519-05-02", topic: "Culture & Ideas" },
+    { title: "Classical Athens", started: "-0508-01-01", ended: "-0322-01-01", topic: "Greece" },
+    { title: "Roman Republic", started: "-0509-01-01", ended: "-0027-01-01", topic: "Roman Empire" },
+    { title: "Roman Empire", started: "-0027-01-01", ended: "0395-01-01", topic: "Roman Empire" },
+    { title: "Early Dynastic Period", started: "-3150-01-01", ended: "-2686-01-01", topic: "Egypt" },
+    { title: "Old Kingdom", started: "-2686-01-01", ended: "-2181-01-01", topic: "Egypt" },
+    { title: "Middle Kingdom", started: "-2134-01-01", ended: "-1690-01-01", topic: "Egypt" },
+    { title: "New Kingdom", started: "-1549-01-01", ended: "-1078-01-01", topic: "Egypt" },
+    { title: "Late Period", started: "-664-01-01", ended: "-332-01-01", topic: "Egypt" },
+    { title: "Ptolemaic Kingdom", started: "-332-01-01", ended: "-30-01-01", topic: "Egypt" },
+    { title: "Kievan Rus", started: "0862-01-01", ended: "1240-01-01", topic: "Russia" },
+    { title: "Grand Duchy of Moscow", started: "1283-01-01", ended: "1547-01-16", topic: "Russia" },
+    { title: "Tsardom of Russia", started: "1547-01-16", ended: "1721-11-02", topic: "Russia" },
+    { title: "Russian Empire", started: "1721-11-02", ended: "1917-09-01", topic: "Russia" },
+    { title: "Russian Civil War", started: "1917-11-07", ended: "1922-10-25", topic: "Russia" },
+    { title: "USSR", started: "1922-12-30", ended: "1991-12-26", topic: "Russia", background: "file:///D:/ussr.png" },
+    { title: "Russia", started: "1991-12-26", ended: "Now", topic: "Russia", background: "file:///D:/russia.jpg" },
+    { title: "Boris Yeltsin", started: "1991-07-10", ended: "1999-12-31", topic: "Ruler of Russia" },
+    { title: "Putin", started: "1999-12-31", ended: "2008-05-07", topic: "Ruler of Russia" },
+    { title: "Medvedev", started: "2008-05-07", ended: "2012-05-07", topic: "Ruler of Russia" },
+    { title: "Putin", started: "2012-05-07", ended: "Now", topic: "Ruler of Russia" },
+
+    { title: "The American Civil War", started: "1861-04-12", ended: "1865-05-26", topic: "USA",
+      background: "file:///D:/usa.jpg",
+      description: "The war in the United States between the Union ('the North') and the Confederacy ('the South'), which was formed in 1861 by states that had seceded from the Union to preserve slavery in the United States, which they saw as threatened because of the election of Abraham Lincoln and the growing abolitionist movement in the North."
+    },
+    { title: "USA", started: "1776-07-04", ended: "Now", topic: "USA", background: "file:///D:/usa.jpg" },
+
+    { title: "George Washington", started: "1789-04-30", ended: "1797-03-04", topic: "Presidents of the USA" },
+    { title: "John Adams", started: "1797-03-04", ended: "1801-03-04", topic: "Presidents of the USA" },
+    { title: "Thomas Jefferson", started: "1801-03-04", ended: "1809-03-04", topic: "Presidents of the USA" },
+    { title: "James Madison", started: "1809-03-04", ended: "1817-03-04", topic: "Presidents of the USA" },
+    { title: "James Monroe", started: "1817-03-04", ended: "1825-03-04", topic: "Presidents of the USA" },
+    { title: "John Quincy Adams", started: "1825-03-04", ended: "1829-03-04", topic: "Presidents of the USA" },
+    { title: "Andrew Jackson", started: "1829-03-04", ended: "1837-03-04", topic: "Presidents of the USA" },
+    { title: "Martin Van Buren", started: "1837-03-04", ended: "1841-03-04", topic: "Presidents of the USA" },
+    { title: "William Henry Harrison", started: "1841-03-04", ended: "1841-04-04", topic: "Presidents of the USA" },
+    { title: "John Tyler", started: "1841-04-04", ended: "1845-03-04", topic: "Presidents of the USA" },
+    { title: "James K. Polk", started: "1845-04-04", ended: "1849-03-04", topic: "Presidents of the USA" },
+    { title: "Zachary Taylor", started: "1849-04-04", ended: "1850-07-09", topic: "Presidents of the USA" },
+
+    { title: "COVID-19 pandemic", started: "2020-01-30", ended: "2023-05-05", topic: "Science & Technology" },
+    { title: "Ottoman Empire", started: "1299-01-01", ended: "1920-08-10", topic: "Turks" },
+    // { title: "Stone Age", started: "-3300000-01-01", ended: "-3300-01-01", topic: "Prehistory" },
+    { title: "Paleolithic (Old Stone Age)", started: "-3300000-01-01", ended: "-11600-01-01", topic: "Prehistory" },
+    { title: "Mesolithic (Middle Stone Age)", started: "-11600-01-01", ended: "-6000-01-01", topic: "Prehistory" },
+    { title: "Neolithic (New Stone Age)", started: "-6000-01-01", ended: "-3300-01-01", topic: "Prehistory" },
+    { title: "Triassic (early dinosaurs)", started: "-231000000-01-01", ended: "-201000000-01-01", topic: "Prehistory" },
+    { title: "Jurassic", started: "-201000000-01-01", ended: "-145000000-01-01", topic: "Prehistory" },
+    { title: "Cretaceous", started: "-145000000-01-01", ended: "-66000000-01-01", topic: "Prehistory" },
+  ]
+};
+
+// ── Topic colors (dynamic assignment from a palette of 20+) ──
+const COLOR_PALETTE = [
+  '#e94560', '#4895ef', '#4cc9a0', '#ff9f43', '#a259ff',
+  '#00d2ff', '#f9c846', '#ff6b9d', '#7bed9f', '#fd79a8',
+  '#6c5ce7', '#00cec9', '#e17055', '#0984e3', '#d63031',
+  '#b8e994', '#f8a5c2', '#778beb', '#cf6a87', '#63cdda',
+  '#ea8685', '#596275', '#f19066', '#3dc1d3', '#e77f67',
+];
+
+function hexToRgba(hex, alpha) {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+
+// Collect all unique topics from data, assign colors in order of first appearance
+const TOPIC_COLORS = {};
+let _colorIdx = 0;
+function ensureTopicColor(topic) {
+  if (!TOPIC_COLORS[topic]) {
+    const fill = COLOR_PALETTE[_colorIdx % COLOR_PALETTE.length];
+    TOPIC_COLORS[topic] = { fill, bg: hexToRgba(fill, 0.45) };
+    _colorIdx++;
+  }
+}
+for (const e of DATA.events) ensureTopicColor(e.topic);
+for (const p of DATA.periods) ensureTopicColor(p.topic);
+
+// ── Helpers ──
+// Resolve special date keywords like "now" to actual YYYY-MM-DD strings
+function resolveDate(dateStr) {
+  if (dateStr.toLowerCase() === 'now') {
+    const d = new Date();
+    const y = d.getFullYear().toString().padStart(4, '0');
+    const m = (d.getMonth() + 1).toString().padStart(2, '0');
+    const day = d.getDate().toString().padStart(2, '0');
+    return `${y}-${m}-${day}`;
+  }
+  return dateStr;
+}
+
+// Parses "YYYY-MM-DD" or "-YYYY-MM-DD" (for BC/BCE dates)
+function parseDateParts(dateStr) {
+  const bc = dateStr.startsWith('-');
+  const parts = (bc ? dateStr.slice(1) : dateStr).split('-').map(Number);
+  return { y: bc ? -parts[0] : parts[0], m: parts[1], d: parts[2] };
+}
+
+function dateToYear(dateStr) {
+  const { y, m, d } = parseDateParts(dateStr);
+  const absY = Math.abs(y);
+  const daysInMonth = [31,28,31,30,31,30,31,31,30,31,30,31];
+  if ((absY % 4 === 0 && absY % 100 !== 0) || absY % 400 === 0) daysInMonth[1] = 29;
+  const dayOfYear = daysInMonth.slice(0, m - 1).reduce((a, b) => a + b, 0) + d;
+  const totalDays = daysInMonth.reduce((a, b) => a + b, 0);
+  return y + (dayOfYear - 1) / totalDays;
+}
+
+function formatDate(dateStr) {
+  const { y, m, d } = parseDateParts(dateStr);
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const yearStr = y < 0 ? `${Math.abs(y)} BC` : `${y}`;
+  return `${d} ${months[m - 1]} ${yearStr}`;
+}
+
+function formatYearLabel(year) {
+  const abs = Math.abs(year);
+  const suffix = year < 0 ? ' BC' : '';
+  if (abs >= 1e9)       return (abs / 1e9).toFixed(abs % 1e9 === 0 ? 0 : 1) + 'B' + suffix;
+  if (abs >= 1e6)       return (abs / 1e6).toFixed(abs % 1e6 === 0 ? 0 : 1) + 'M' + suffix;
+  if (abs >= 100000)    return (abs / 1e3).toFixed(0) + 'K' + suffix;
+  if (abs >= 10000)     return (abs / 1e3).toFixed(abs % 1e3 === 0 ? 0 : 1) + 'K' + suffix;
+  return abs.toString() + suffix;
+}
+
+// ── Canvas setup ──
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+const tooltip = document.getElementById('tooltip');
+const ttBg = document.getElementById('tt-bg');
+const ttTopic = document.getElementById('tt-topic');
+const ttTitle = document.getElementById('tt-title');
+const ttDate = document.getElementById('tt-date');
+const ttDesc = document.getElementById('tt-desc');
+
+let W, H;
+const RULER_HEIGHT = 60;
+const ROW_HEIGHT = 40;
+const ROW_GAP = 2;
+const ROWS_TOP_MARGIN = 50;
+const ROWS_BOTTOM_MARGIN = 18;
+const EVENT_RADIUS = 6;
+const PERIOD_BAR_HEIGHT = 26;
+
+let centerYear = 1500;
+let pixelsPerYear = 2;
+let scrollY = 0;
+let dragging = false;
+let dragStartX = 0;
+let dragStartY = 0;
+let dragStartCenter = 0;
+let dragStartScroll = 0;
+
+// ── Pre-process data (resolve "now" keywords first) ──
+const events = DATA.events.map(e => {
+  const date = resolveDate(e.date);
+  return { ...e, date, yearVal: dateToYear(date) };
+});
+const periods = DATA.periods.map(p => {
+  const started = resolveDate(p.started);
+  const ended = resolveDate(p.ended);
+  return { ...p, started, ended, startVal: dateToYear(started), endVal: dateToYear(ended) };
+});
+
+// ── Compute topic time-ranges ──
+const topicRanges = {};
+for (const e of events) {
+  if (!topicRanges[e.topic]) topicRanges[e.topic] = { min: e.yearVal, max: e.yearVal };
+  else {
+    topicRanges[e.topic].min = Math.min(topicRanges[e.topic].min, e.yearVal);
+    topicRanges[e.topic].max = Math.max(topicRanges[e.topic].max, e.yearVal);
+  }
+}
+for (const p of periods) {
+  if (!topicRanges[p.topic]) topicRanges[p.topic] = { min: p.startVal, max: p.endVal };
+  else {
+    topicRanges[p.topic].min = Math.min(topicRanges[p.topic].min, p.startVal);
+    topicRanges[p.topic].max = Math.max(topicRanges[p.topic].max, p.endVal);
+  }
+}
+
+// Sort topics by earliest year
+const topicNames = Object.keys(topicRanges).sort((a, b) => topicRanges[b].min - topicRanges[a].min);
+
+// ── Each topic gets its own row ──
+const topicToRow = {};
+const visualRows = [];
+for (let i = 0; i < topicNames.length; i++) {
+  const name = topicNames[i];
+  topicToRow[name] = i;
+  visualRows.push([{ name, ...topicRanges[name] }]);
+}
+const totalRows = visualRows.length;
+
+// ── Coordinate mapping ──
+function yearToX(year) { return W / 2 + (year - centerYear) * pixelsPerYear; }
+function xToYear(x) { return centerYear + (x - W / 2) / pixelsPerYear; }
+
+function getRowY(r) {
+  return ROWS_TOP_MARGIN + r * (ROW_HEIGHT + ROW_GAP) - scrollY;
+}
+function getRowCenterY(r) { return getRowY(r) + ROW_HEIGHT / 2; }
+
+function clampScrollY() {
+  const rulerTop = H - RULER_HEIGHT;
+  const availableHeight = rulerTop - ROWS_TOP_MARGIN - ROWS_BOTTOM_MARGIN;
+  const contentHeight = totalRows * (ROW_HEIGHT + ROW_GAP);
+  const maxScroll = Math.max(0, contentHeight - availableHeight);
+  scrollY = Math.max(0, Math.min(maxScroll, scrollY));
+}
+
+// ── Drawing ──
+function draw() {
+  ctx.clearRect(0, 0, W, H);
+
+  const rulerTop = H - RULER_HEIGHT;
+  const minYear = xToYear(0);
+  const maxYear = xToYear(W);
+
+  // Tick interval — generate candidates dynamically for any zoom level
+  let tickInterval = 1;
+  // Generate: 1,2,5, 10,20,50, 100,200,500, ... up to 10 billion
+  const candidates = [];
+  for (let mag = 1; mag <= 1e10; mag *= 10) {
+    candidates.push(mag, mag * 2, mag * 5);
+  }
+  for (const c of candidates) {
+    if (c * pixelsPerYear >= 30) { tickInterval = c; break; }
+  }
+  let majorInterval = tickInterval * 10;
+  if (tickInterval >= 100) majorInterval = tickInterval * 5;
+  const firstTick = Math.floor(minYear / tickInterval) * tickInterval;
+
+  // 1. Vertical guide lines (full height, no clip)
+  for (let year = firstTick; year <= maxYear; year += tickInterval) {
+    const x = yearToX(year);
+    const isMajor = (year % majorInterval === 0);
+    ctx.beginPath();
+    ctx.moveTo(x, 0);
+    ctx.lineTo(x, rulerTop);
+    ctx.strokeStyle = isMajor ? 'rgba(255,255,255,0.14)' : 'rgba(255,255,255,0.06)';
+    ctx.lineWidth = isMajor ? 1 : 0.5;
+    ctx.stroke();
+  }
+
+  // ── Clip content area so rows don't bleed into ruler ──
+  ctx.save();
+  ctx.beginPath();
+  ctx.rect(0, 0, W, rulerTop);
+  ctx.clip();
+
+  // 2. Row backgrounds and separators
+  for (let r = 0; r < totalRows; r++) {
+    const y = getRowY(r);
+    if (y + ROW_HEIGHT < 0 || y > rulerTop) continue;
+    if (r % 2 === 0) {
+      ctx.fillStyle = 'rgba(255,255,255,0.02)';
+      ctx.fillRect(0, y, W, ROW_HEIGHT);
+    }
+    ctx.beginPath();
+    ctx.moveTo(0, y + ROW_HEIGHT + ROW_GAP / 2);
+    ctx.lineTo(W, y + ROW_HEIGHT + ROW_GAP / 2);
+    ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  }
+
+  // 3. Draw periods
+  for (const p of periods) {
+    const x1 = yearToX(p.startVal);
+    const x2 = yearToX(p.endVal);
+    if (x2 < 0 || x1 > W) continue;
+    const row = topicToRow[p.topic];
+    const cy = getRowCenterY(row);
+    if (cy < -PERIOD_BAR_HEIGHT || cy > rulerTop + PERIOD_BAR_HEIGHT) continue;
+    const barY = cy - PERIOD_BAR_HEIGHT / 2;
+    const color = TOPIC_COLORS[p.topic];
+
+    const rx1 = Math.max(x1, -4);
+    const rx2 = Math.min(x2, W + 4);
+    const rw = rx2 - rx1;
+    if (rw <= 0) continue;
+
+    ctx.fillStyle = color.bg;
+    ctx.beginPath();
+    ctx.roundRect(rx1, barY, rw, PERIOD_BAR_HEIGHT, 4);
+    ctx.fill();
+
+    if (rw > 50) {
+      ctx.save();
+      ctx.beginPath();
+      ctx.rect(rx1, barY, rw, PERIOD_BAR_HEIGHT);
+      ctx.clip();
+      ctx.fillStyle = '#fff';
+      ctx.font = '12px Segoe UI, sans-serif';
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'middle';
+      const labelX = Math.max(x1 + 8, 10);
+      ctx.fillText(p.title, labelX, cy);
+      ctx.restore();
+    }
+  }
+
+  // 4. Draw events
+  for (const e of events) {
+    const x = yearToX(e.yearVal);
+    if (x < -20 || x > W + 20) continue;
+    const row = topicToRow[e.topic];
+    const cy = getRowCenterY(row);
+    if (cy < -EVENT_RADIUS || cy > rulerTop + EVENT_RADIUS) continue;
+    const color = TOPIC_COLORS[e.topic];
+
+    ctx.beginPath();
+    ctx.arc(x, cy, EVENT_RADIUS, 0, Math.PI * 2);
+    ctx.fillStyle = color.fill;
+    ctx.fill();
+    ctx.strokeStyle = '#1a1a2e';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+  }
+
+  // 5. Event labels when zoomed in
+  if (pixelsPerYear > 4) {
+    for (const e of events) {
+      const x = yearToX(e.yearVal);
+      if (x < -120 || x > W + 120) continue;
+      const row = topicToRow[e.topic];
+      const cy = getRowCenterY(row);
+      if (cy < -40 || cy > rulerTop + 40) continue;
+      const color = TOPIC_COLORS[e.topic];
+      ctx.save();
+      ctx.globalAlpha = 0.85;
+      ctx.font = '11px Segoe UI, sans-serif';
+      ctx.fillStyle = color.fill;
+      ctx.translate(x + EVENT_RADIUS + 4, cy - EVENT_RADIUS - 3);
+      ctx.rotate(-Math.PI / 7);
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'bottom';
+      ctx.fillText(e.title, 0, 0);
+      ctx.restore();
+    }
+  }
+
+  // 6. Topic row labels
+  for (let r = 0; r < totalRows; r++) {
+    const topics = visualRows[r];
+    const rowY = getRowY(r);
+    if (rowY + ROW_HEIGHT < 0 || rowY > rulerTop) continue;
+    const step = ROW_HEIGHT / (topics.length + 1);
+
+    for (let i = 0; i < topics.length; i++) {
+      const name = topics[i].name;
+      const color = TOPIC_COLORS[name];
+      const ly = rowY + step * (i + 1);
+
+      ctx.font = 'bold 10px Segoe UI, sans-serif';
+      const tw = ctx.measureText(name).width;
+
+      ctx.fillStyle = 'rgba(26, 26, 46, 0.88)';
+      ctx.beginPath();
+      ctx.roundRect(5, ly - 9, tw + 22, 18, 4);
+      ctx.fill();
+      ctx.strokeStyle = color.fill + '44';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.arc(14, ly, 3.5, 0, Math.PI * 2);
+      ctx.fillStyle = color.fill;
+      ctx.fill();
+
+      ctx.fillStyle = color.fill;
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(name, 22, ly);
+    }
+  }
+
+  // ── End content clip ──
+  ctx.restore();
+
+  // 7. Ruler (always on top, outside clip)
+  ctx.fillStyle = '#0f0f23';
+  ctx.fillRect(0, rulerTop, W, RULER_HEIGHT);
+  ctx.fillStyle = '#16213e';
+  ctx.fillRect(0, rulerTop, W, 2);
+
+  for (let year = firstTick; year <= maxYear; year += tickInterval) {
+    const x = yearToX(year);
+    const isMajor = (year % majorInterval === 0);
+    const tickH = isMajor ? 20 : 10;
+
+    ctx.beginPath();
+    ctx.moveTo(x, rulerTop + 2);
+    ctx.lineTo(x, rulerTop + 2 + tickH);
+    ctx.strokeStyle = isMajor ? '#e0e0e0' : '#555';
+    ctx.lineWidth = isMajor ? 2 : 1;
+    ctx.stroke();
+
+    if (isMajor || tickInterval * pixelsPerYear >= 60) {
+      ctx.fillStyle = isMajor ? '#e0e0e0' : '#888';
+      ctx.font = isMajor ? 'bold 13px Segoe UI, sans-serif' : '11px Segoe UI, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'top';
+      ctx.fillText(formatYearLabel(year), x, rulerTop + 2 + tickH + 4);
+    }
+  }
+}
+
+// ── Resize ──
+function resize() {
+  canvas.width = window.innerWidth * devicePixelRatio;
+  canvas.height = window.innerHeight * devicePixelRatio;
+  canvas.style.width = window.innerWidth + 'px';
+  canvas.style.height = window.innerHeight + 'px';
+  ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+  W = window.innerWidth;
+  H = window.innerHeight;
+  clampScrollY();
+  draw();
+}
+window.addEventListener('resize', resize);
+resize();
+
+// ── Drag ──
+const container = document.getElementById('timeline-container');
+
+container.addEventListener('mousedown', e => {
+  dragging = true;
+  dragStartX = e.clientX;
+  dragStartY = e.clientY;
+  dragStartCenter = centerYear;
+  dragStartScroll = scrollY;
+  container.classList.add('grabbing');
+});
+
+window.addEventListener('mousemove', e => {
+  if (dragging) {
+    const dx = e.clientX - dragStartX;
+    const dy = e.clientY - dragStartY;
+    centerYear = dragStartCenter - dx / pixelsPerYear;
+    scrollY = dragStartScroll - dy;
+    clampScrollY();
+    draw();
+  }
+  handleHover(e.clientX, e.clientY);
+});
+
+window.addEventListener('mouseup', () => {
+  dragging = false;
+  container.classList.remove('grabbing');
+});
+
+// ── Zoom ──
+container.addEventListener('wheel', e => {
+  e.preventDefault();
+  const mouseYear = xToYear(e.clientX);
+  const factor = e.deltaY < 0 ? 1.15 : 1 / 1.15;
+  pixelsPerYear = Math.max(1e-7, Math.min(200, pixelsPerYear * factor));
+  centerYear = mouseYear - (e.clientX - W / 2) / pixelsPerYear;
+  draw();
+}, { passive: false });
+
+document.getElementById('btn-zoom-in').addEventListener('click', () => {
+  pixelsPerYear = Math.min(200, pixelsPerYear * 1.4);
+  draw();
+});
+document.getElementById('btn-zoom-out').addEventListener('click', () => {
+  pixelsPerYear = Math.max(1e-7, pixelsPerYear / 1.4);
+  draw();
+});
+document.getElementById('btn-reset').addEventListener('click', () => {
+  centerYear = 1500;
+  pixelsPerYear = 2;
+  scrollY = 0;
+  draw();
+});
+
+// ── Tooltip ──
+function handleHover(mx, my) {
+  let hit = null;
+
+  // Check events (circles)
+  for (const e of events) {
+    const x = yearToX(e.yearVal);
+    const row = topicToRow[e.topic];
+    const cy = getRowCenterY(row);
+    const dx = mx - x, dy = my - cy;
+    if (dx * dx + dy * dy <= (EVENT_RADIUS + 4) * (EVENT_RADIUS + 4)) {
+      hit = { title: e.title, date: formatDate(e.date), topic: e.topic, background: e.background, description: e.description };
+      break;
+    }
+  }
+
+  // Check periods (bars)
+  if (!hit) {
+    for (const p of periods) {
+      const x1 = yearToX(p.startVal), x2 = yearToX(p.endVal);
+      const row = topicToRow[p.topic];
+      const cy = getRowCenterY(row);
+      const barY = cy - PERIOD_BAR_HEIGHT / 2;
+      if (mx >= x1 && mx <= x2 && my >= barY && my <= barY + PERIOD_BAR_HEIGHT) {
+        hit = { title: p.title, date: formatDate(p.started) + ' \u2014 ' + formatDate(p.ended), topic: p.topic, background: p.background, description: p.description };
+        break;
+      }
+    }
+  }
+
+  if (hit) {
+    ttTopic.textContent = hit.topic;
+    ttTopic.style.color = TOPIC_COLORS[hit.topic].fill;
+    ttTitle.textContent = hit.title;
+    ttDate.textContent = hit.date;
+    if (hit.description) {
+      ttDesc.textContent = hit.description;
+      ttDesc.style.display = 'block';
+    } else {
+      ttDesc.style.display = 'none';
+    }
+    if (hit.background) {
+      ttBg.style.backgroundImage = `url("${hit.background}")`;
+      ttBg.style.display = 'block';
+    } else {
+      ttBg.style.display = 'none';
+    }
+    let tx = mx + 14, ty = my - 10;
+    if (tx + 280 > W) tx = mx - 290;
+    if (ty < 0) ty = my + 14;
+    tooltip.style.left = tx + 'px';
+    tooltip.style.top = ty + 'px';
+    tooltip.classList.add('visible');
+  } else {
+    tooltip.classList.remove('visible');
+  }
+}
+
+// ── Touch support ──
+let lastTouchDist = 0;
+
+container.addEventListener('touchstart', e => {
+  if (e.touches.length === 1) {
+    dragging = true;
+    dragStartX = e.touches[0].clientX;
+    dragStartY = e.touches[0].clientY;
+    dragStartCenter = centerYear;
+    dragStartScroll = scrollY;
+  } else if (e.touches.length === 2) {
+    dragging = false;
+    lastTouchDist = Math.abs(e.touches[0].clientX - e.touches[1].clientX);
+  }
+}, { passive: true });
+
+container.addEventListener('touchmove', e => {
+  e.preventDefault();
+  if (e.touches.length === 1 && dragging) {
+    const dx = e.touches[0].clientX - dragStartX;
+    const dy = e.touches[0].clientY - dragStartY;
+    centerYear = dragStartCenter - dx / pixelsPerYear;
+    scrollY = dragStartScroll - dy;
+    clampScrollY();
+    draw();
+  } else if (e.touches.length === 2) {
+    const t = e.touches;
+    const dist = Math.abs(t[0].clientX - t[1].clientX);
+    const center = (t[0].clientX + t[1].clientX) / 2;
+    const mouseYear = xToYear(center);
+    pixelsPerYear = Math.max(1e-7, Math.min(200, pixelsPerYear * (dist / lastTouchDist)));
+    centerYear = mouseYear - (center - W / 2) / pixelsPerYear;
+    lastTouchDist = dist;
+    draw();
+  }
+}, { passive: false });
+
+container.addEventListener('touchend', () => { dragging = false; });
+</script>
+</body>
+</html>
