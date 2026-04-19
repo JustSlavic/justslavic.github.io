@@ -135,9 +135,23 @@ const DATA = {
     { title: "Columbus reaches the Americas", date: "1492-10-12", topic: "Exploration" },
     { title: "Martin Luther's 95 Theses", date: "1517-10-31", topic: "Culture & Ideas" },
     { title: "Defeat of the Spanish Armada", date: "1588-08-08", topic: "Spain" },
-    { title: "Galileo observes Jupiter's moons", date: "1610-01-07", topic: "Science & Technology" },
     { title: "Execution of King Charles I", date: "1649-01-30", topic: "England" },
+
+    // --------------------------- Science & Technology --------------------------- //
+    { title: "Galileo observes Jupiter's moons", date: "1610-01-07", topic: "Science & Technology" },
     { title: "Isaac Newton publishes Principia", date: "1687-07-05", topic: "Science & Technology" },
+    { title: "Maxwell's equations", date: "1865-06-15", topic: "Science & Technology",
+      description: "James Clerk Maxwell publishes 'A Dynamical Theory of the Electromagnetic Field'" },
+    { title: "Discovery of the DNA", date: "1953-02-28", topic: "Science & Technology",
+      description: "Francis Crick and James Watson at Cambridge University announced the discovery of the DNA double helix structure" },
+    { title: "Cholera bacteria discovery by Félix-Archimède Pouchet", date: "1849-04-23", topic: "Science & Technology" },
+    { title: "Koch rediscovered cholera bacteria and tied it to disease", date: "1884-01-07", topic: "Science & Technology" },
+    { title: "Soho cholera outbreak", date: "1854-08-31", topic: "Science & Technology",
+      description: "This outbreak led John Snow to map out and correctly identify the source of the outbreak" },
+
+    { title: "Theory of Evolution", date: "1859-11-24", topic: "Science & Technology",
+      description: "Charles Darwin’s On the Origin of Species introduced the foundational scientific theory that populations evolve over generations through a process of natural selection." },
+
     { title: "Declaration of Independence signed", date: "1776-07-04", topic: "USA" },
     { title: "Storming of the Bastille", date: "1789-07-14", topic: "France" },
     { title: "Battle of Trafalgar", date: "1805-10-21", topic: "Spain" },
@@ -160,7 +174,7 @@ const DATA = {
     { title: "Fall of the Berlin Wall", date: "1989-11-09", topic: "Revolutions" },
     { title: "Dissolution of the Soviet Union", date: "1991-12-26", topic: "Revolutions" },
     { title: "9/11 Attacks", date: "2001-09-11", topic: "Wars & Conflicts" },
-    { title: "Global Financial Crisis begins", date: "2008-09-15", topic: "Economy2" },
+    { title: "Global Financial Crisis begins", date: "2008-09-15", topic: "Economy" },
     { title: "Unification of Upper and Lower Egypt", date: "-3150-01-01", topic: "Egypt" },
     { title: "Annexation by the Roman Empire", date: "-0030-01-01", topic: "Egypt" },
     { title: "The world's first metro opened", date: "1863-01-10", topic: "Science & Technology" },
@@ -179,15 +193,29 @@ const DATA = {
       background: "./images/history/Age_of_Enlightenment.jpg",
       description: "The Age of Enlightenment, also known as the Age of Reason or simply the Enlightenment, was a period of intellectual and cultural flourishing in Europe and Western civilization, emerging in the late 17th century in Western Europe. Characterized by an emphasis on reason, empirical evidence, and the scientific method, the Enlightenment promoted ideals of individual liberty, religious tolerance, progress, and natural rights. Its thinkers advocated for constitutional government, the separation of church and state, and the application of rational principles to social and political reform.",
     },
-    { title: "Industrial Revolution", started: "1760-01-01", ended: "1840-01-01", topic: "Economy2",
+    { title: "Industrial Revolution", started: "1760-01-01", ended: "1840-01-01", topic: "Economy",
       background: "./images/history/Industrial_Revolution.avif",
       description: "The Industrial Revolution, was a transitional period of the global economy toward more widespread, efficient and stable manufacturing processes, succeeding the Second Agricultural Revolution. This transition included going from hand production methods to machines; new chemical manufacturing and iron production processes; the increasing use of water power and steam power; the development of machine tools; and rise of the mechanised factory system."
     },
+    // --------------------------- Wars & Conflicts --------------------------- //
     { title: "Napoleonic Wars", started: "1803-05-18", ended: "1815-11-20", topic: "Wars & Conflicts" },
     { title: "American Civil War", started: "1861-04-12", ended: "1865-05-09", topic: "Wars & Conflicts" },
     { title: "First World War", started: "1914-07-28", ended: "1918-11-11", topic: "Wars & Conflicts" },
     { title: "Second World War", started: "1939-09-01", ended: "1945-09-02", topic: "Wars & Conflicts" },
     { title: "Cold War", started: "1947-03-12", ended: "1991-12-26", topic: "Wars & Conflicts" },
+    {
+      title: "Siege of Leningrad",
+      started: "1941-09-08",
+      ended: "1944-01-27",
+      topic: "Wars & Conflicts"
+    },
+
+    { title: "Cholera pandemic I (1817 – 1824)", started: "1817-01-01", ended: "1824-01-01", topic: "Science & Technology" },
+    { title: "Cholera pandemic II (1826 – 1837)", started: "1826-01-01", ended: "1837-01-01", topic: "Science & Technology" },
+    { title: "Cholera pandemic III (1846 – 1860)", started: "1846-01-01", ended: "1860-01-01", topic: "Science & Technology" },
+    { title: "Spanish flu pandemic (1918 – 1920)", started: "1918-01-01", ended: "1920-01-01", topic: "Science & Technology",
+      description: "The 1918–1920 flu pandemic, also known as the Great Influenza epidemic or by the misleading name Spanish flu, was an exceptionally deadly global influenza pandemic caused by the H1N1 subtype of the influenza A virus." },
+
     { title: "Space Race", started: "1957-10-04", ended: "1975-07-17", topic: "Science & Technology" },
     // { title: "Leonardo da Vinci", started: "1452-04-15", ended: "1519-05-02", topic: "Culture & Ideas" },
     {
@@ -198,14 +226,19 @@ const DATA = {
       background: "./images/history/Classical_Athens.jpg",
       description: "Classical Greece was a period of around 200 years (the 5th and 4th centuries BC) in Ancient Greece. Much of the early defining mathematics, science, artistic thought (architecture, sculpture), theatre, literature, philosophy, and politics of Western civilization derive from this period of Greek history, which had a powerful influence on the later Roman Empire."
     },
+    // --------------------------- Roman Empire --------------------------- //
     { title: "Roman Republic", started: "-0509-01-01", ended: "-0027-01-01", topic: "Roman Empire" },
     { title: "Roman Empire", started: "-0027-01-01", ended: "0395-01-01", topic: "Roman Empire" },
+
+    // --------------------------- Egypt --------------------------- //
     { title: "Early Dynastic Period", started: "-3150-01-01", ended: "-2686-01-01", topic: "Egypt" },
     { title: "Old Kingdom", started: "-2686-01-01", ended: "-2181-01-01", topic: "Egypt" },
     { title: "Middle Kingdom", started: "-2134-01-01", ended: "-1690-01-01", topic: "Egypt" },
     { title: "New Kingdom", started: "-1549-01-01", ended: "-1078-01-01", topic: "Egypt" },
     { title: "Late Period", started: "-664-01-01", ended: "-332-01-01", topic: "Egypt" },
     { title: "Ptolemaic Kingdom", started: "-332-01-01", ended: "-30-01-01", topic: "Egypt" },
+
+    // --------------------------- Russia --------------------------- //
     { title: "Kievan Rus", started: "0862-01-01", ended: "1240-01-01", topic: "Russia" },
     { title: "Grand Duchy of Moscow", started: "1283-01-01", ended: "1547-01-16", topic: "Russia" },
     { title: "Tsardom of Russia", started: "1547-01-16", ended: "1721-11-02", topic: "Russia" },
@@ -214,17 +247,70 @@ const DATA = {
     { title: "USSR", started: "1922-12-30", ended: "1991-12-26", topic: "Russia", background: "./images/history/USSR.png" },
     { title: "Russia", started: "1991-12-26", ended: "Now", topic: "Russia",
       background: "./images/history/Russia.jpg" },
-    { title: "Boris Yeltsin", started: "1991-07-10", ended: "1999-12-31", topic: "Rulers of Russia" },
-    { title: "Putin", started: "1999-12-31", ended: "2008-05-07", topic: "Rulers of Russia" },
-    { title: "Medvedev", started: "2008-05-07", ended: "2012-05-07", topic: "Rulers of Russia" },
-    { title: "Putin", started: "2012-05-07", ended: "Now", topic: "Rulers of Russia" },
 
+    // --------------------------- Rulers of Russia --------------------------- //
+    { title: "Рюрик", started: "862-01-01", ended: "879-01-01", topic: "Rulers of Russia" },
+    { title: "Иван III Васильевич (Великий)", started: "1462-05-05", ended: "1505-11-06", topic: "Rulers of Russia",
+      description: "Son of Vasily II and Maria of Borovsk" },
+    { title: "Василий III Иванович", started: "1505-11-06", ended: "1533-12-13", topic: "Rulers of Russia",
+      description: "Son of Ivan III and Sophia Paleologue" },
+    { title: "Иван IV Васильевич (Грозный)", started: "1533-12-13", ended: "1584-03-28", topic: "Rulers of Russia",
+      description: "Son of Vasily III and Elena Glinskaya. Ivan's reign was characterised by Russia's transformation from a medieval state to a fledgling empire, but at an immense cost to its people and long-term economy." },
+    { title: "Фёдор Иванович", started: "1584-03-28", ended: "1598-01-17", topic: "Rulers of Russia",
+      description: "Son of Ivan IV and Anastasia Zakharyina-Yuryeva" },
+    { title: "Ирина Фёдоровна", started: "1598-01-17", ended: "1598-03-03", topic: "Rulers of Russia" },
+    { title: "Борис Фёдорович", started: "1598-03-03", ended: "1605-04-23", topic: "Rulers of Russia" },
+    { title: "Фёдор Борисович", started: "1605-04-23", ended: "1605-06-20", topic: "Rulers of Russia" },
+    { title: "Лжедмитрий I", started: "1605-06-20", ended: "1606-05-27", topic: "Rulers of Russia" },
+    { title: "Василий IV Иванович (Шуйский)", started: "1606-05-19", ended: "1610-07-27", topic: "Rulers of Russia" },
+
+    { title: "под управлением старшего боярина Семибоярщины Фёдора Мстиславского", started: "1610-07-27", ended: "1612-11-06", topic: "Rulers of Russia" },
+    { title: "под управлением бояр Земского правительства Дмитрия Трубецкого и Дмитрия Пожарского", started: "1612-11-06", ended: "1613-03-07", topic: "Rulers of Russia" },
+    { title: "повторно под управлением старшего боярина Боярской думы Фёдора Мстиславского", started: "1613-03-07", ended: "1613-05-12", topic: "Rulers of Russia" },
+
+    { title: "Михаил Фёдорович", started: "1613-03-03", ended: "1645-07-23", topic: "Rulers of Russia" },
+    { title: "Алексей Михайлович", started: "1645-07-23", ended: "1676-02-08", topic: "Rulers of Russia" },
+    { title: "Фёдор Алексеевич", started: "1676-02-08", ended: "1682-05-07", topic: "Rulers of Russia" },
+    { title: "Пётр I Алексеевич", started: "1682-05-07", ended: "1721-11-02", topic: "Rulers of Russia" },
+    { title: "Иван V Алексеевич", started: "1682-05-07", ended: "1696-02-08", topic: "Rulers of Russia" },
+    { title: "Пётр I Алексеевич", started: "1721-11-02", ended: "1725-02-08", topic: "Rulers of Russia" },
+    { title: "Екатерина I Алексеевна", started: "1725-02-08", ended: "1727-05-17", topic: "Rulers of Russia" },
+    { title: "Пётр II Алексеевич", started: "1727-05-17", ended: "1730-01-30", topic: "Rulers of Russia" },
+    { title: "Анна Иоанновна", started: "1730-01-30", ended: "1740-10-28", topic: "Rulers of Russia" },
+    { title: "Иван VI Антонович", started: "1740-10-28", ended: "1741-12-06", topic: "Rulers of Russia" },
+    { title: "Елизавета Петровна", started: "1741-12-06", ended: "1762-01-05", topic: "Rulers of Russia" },
+    { title: "Пётр III Фёдорович", started: "1762-01-05", ended: "1762-07-09", topic: "Rulers of Russia" },
+    { title: "Екатерина II Алексеевна", started: "1762-07-09", ended: "1796-11-17", topic: "Rulers of Russia" },
+    { title: "Павел I Петрович", started: "1796-11-17", ended: "1801-03-24", topic: "Rulers of Russia" },
+    { title: "Александр I Павлович", started: "1801-03-24", ended: "1825-12-01", topic: "Rulers of Russia" },
+    { title: "Николай I Павлович", started: "1825-12-01", ended: "1855-03-02", topic: "Rulers of Russia" },
+    { title: "Александр II Николаевич", started: "1855-03-02", ended: "1881-03-13", topic: "Rulers of Russia" },
+    { title: "Александр III Александрович", started: "1881-03-13", ended: "1894-11-01", topic: "Rulers of Russia" },
+    { title: "Николай II Александрович", started: "1894-11-01", ended: "1917-03-15", topic: "Rulers of Russia" },
+
+    { title: "Временное правительство (1917)", started: "1917-03-15", ended: "1922-12-30", topic: "Rulers of Russia" },
+
+    //{ title: "Владимир Ильич Ленин", started: "", ended: "", topic: "Rulers of Russia" },
+    //{ title: "Иосиф Виссарионович Сталин", started: "", ended: "", topic: "Rulers of Russia" },
+    // { title: "Никита Сергеевич Хрущёв", started: "1953-09-07", ended: "1964-10-14", topic: "Rulers of Russia" },
+    // { title: "Леонид Ильич Брежнев", started: "1964-10-14", ended: "1982-11-10", topic: "Rulers of Russia" },
+    // { title: "Юрий Владимирович Андропов", started: "1982-11-12", ended: "1984-02-09", topic: "Rulers of Russia" },
+    // { title: "Константин Устинович Черненко", started: "1984-02-13", ended: "1985-03-10", topic: "Rulers of Russia" },
+    // { title: "Михаил Сергеевич Горбачёв", started: "1985-03-11", ended: "1991-08-24", topic: "Rulers of Russia" },
+
+    { title: "Борис Николаевич Ельцин", started: "1991-07-10", ended: "1999-12-31", topic: "Rulers of Russia" },
+    { title: "Владимир Владимирович Путин", started: "1999-12-31", ended: "2008-05-07", topic: "Rulers of Russia" },
+    { title: "Дмитрий Анатольевич Медведев", started: "2008-05-07", ended: "2012-05-07", topic: "Rulers of Russia" },
+    { title: "Владимир Владимирович Путин", started: "2012-05-07", ended: "Now", topic: "Rulers of Russia" },
+
+    // --------------------------- USA --------------------------- //
     { title: "The American Civil War", started: "1861-04-12", ended: "1865-05-26", topic: "USA",
       background: "./images/history/USA.jpg",
       description: "The war in the United States between the Union ('the North') and the Confederacy ('the South'), which was formed in 1861 by states that had seceded from the Union to preserve slavery in the United States, which they saw as threatened because of the election of Abraham Lincoln and the growing abolitionist movement in the North."
     },
     { title: "USA", started: "1776-07-04", ended: "Now", topic: "USA", background: "./images/history/USA.jpg" },
 
+    // --------------------------- Presidents of the USA --------------------------- //
     { title: "George Washington", started: "1789-04-30", ended: "1797-03-04", topic: "Presidents of the USA" },
     { title: "John Adams", started: "1797-03-04", ended: "1801-03-04", topic: "Presidents of the USA" },
     { title: "Thomas Jefferson", started: "1801-03-04", ended: "1809-03-04", topic: "Presidents of the USA" },
@@ -288,6 +374,36 @@ const DATA = {
     { title: "Triassic (early dinosaurs)", started: "-231000000-01-01", ended: "-201000000-01-01", topic: "Prehistory" },
     { title: "Jurassic", started: "-201000000-01-01", ended: "-145000000-01-01", topic: "Prehistory" },
     { title: "Cretaceous", started: "-145000000-01-01", ended: "-66000000-01-01", topic: "Prehistory" },
+    {
+      title: "Maya Archaic Period",
+      started: "-8000-01-01",
+      ended: "-2000-01-01",
+      topic: "Maya", background: "./images/history/Chichen_Itza.jpg"
+    },
+    {
+      title: "Maya Preclassic Period",
+      started: "-2000-01-01",
+      ended: "250-01-01",
+      topic: "Maya", background: "./images/history/Chichen_Itza.jpg"
+    },
+    {
+      title: "Maya Classic Period",
+      started: "250-01-01",
+      ended: "950-01-01",
+      topic: "Maya", background: "./images/history/Chichen_Itza.jpg"
+    },
+    {
+      title: "Maya Postclassic Period",
+      started: "950-01-01",
+      ended: "1539-01-01",
+      topic: "Maya", background: "./images/history/Chichen_Itza.jpg"
+    },
+    {
+      title: "Maya Contact Period",
+      started: "1511-01-01",
+      ended: "1697-01-01",
+      topic: "Maya", background: "./images/history/Chichen_Itza.jpg"
+    },
   ]
 };
 
@@ -398,12 +514,12 @@ let dragStartScroll = 0;
 // ── Pre-process data (resolve "now" keywords first) ──
 const events = DATA.events.map(e => {
   const date = resolveDate(e.date);
-  return { ...e, date, yearVal: dateToYear(date) };
+  return { ...e, date, _rawDate: e.date, yearVal: dateToYear(date) };
 });
 const periods = DATA.periods.map(p => {
   const started = resolveDate(p.started);
   const ended = resolveDate(p.ended);
-  return { ...p, started, ended, startVal: dateToYear(started), endVal: dateToYear(ended) };
+  return { ...p, started, ended, _rawStarted: p.started, _rawEnded: p.ended, startVal: dateToYear(started), endVal: dateToYear(ended) };
 });
 
 // ── Compute topic time-ranges ──
@@ -731,7 +847,8 @@ function handleHover(mx, my) {
     const cy = getRowCenterY(row);
     const dx = mx - x, dy = my - cy;
     if (dx * dx + dy * dy <= (EVENT_RADIUS + 4) * (EVENT_RADIUS + 4)) {
-      hit = { title: e.title, date: formatDate(e.date), topic: e.topic, background: e.background, description: e.description };
+      const dateLabel = e._rawDate.toLowerCase() === 'now' ? 'Now' : formatDate(e.date);
+      hit = { title: e.title, date: dateLabel, topic: e.topic, background: e.background, description: e.description };
       break;
     }
   }
@@ -744,10 +861,9 @@ function handleHover(mx, my) {
       const cy = getRowCenterY(row);
       const barY = cy - PERIOD_BAR_HEIGHT / 2;
       if (mx >= x1 && mx <= x2 && my >= barY && my <= barY + PERIOD_BAR_HEIGHT) {
-        let startDate = formatDate(p.started)
-        console.log(p.ended.toLowerCase())
-        let endDate = formatDate(p.ended, p.ended.toLowerCase() == 'now')
-        hit = { title: p.title, date: startDate + ' \u2014 ' + endDate, topic: p.topic, background: p.background, description: p.description };
+        const startLabel = p._rawStarted.toLowerCase() === 'now' ? 'Now' : formatDate(p.started);
+        const endLabel = p._rawEnded.toLowerCase() === 'now' ? 'Now' : formatDate(p.ended);
+        hit = { title: p.title, date: startLabel + ' \u2014 ' + endLabel, topic: p.topic, background: p.background, description: p.description };
         break;
       }
     }
@@ -770,12 +886,17 @@ function handleHover(mx, my) {
     } else {
       ttBg.style.display = 'none';
     }
+    // Make visible off-screen so we can measure its real size
+    tooltip.style.left = '-9999px';
+    tooltip.style.top = '-9999px';
+    tooltip.classList.add('visible');
+    const ttRect = tooltip.getBoundingClientRect();
     let tx = mx + 14, ty = my - 10;
-    if (tx + 280 > W) tx = mx - 290;
-    if (ty < 0) ty = my + 14;
+    if (tx + ttRect.width > W) tx = mx - ttRect.width - 14;
+    if (ty + ttRect.height > H) ty = H - ttRect.height - 6;
+    if (ty < 0) ty = 6;
     tooltip.style.left = tx + 'px';
     tooltip.style.top = ty + 'px';
-    tooltip.classList.add('visible');
   } else {
     tooltip.classList.remove('visible');
   }
