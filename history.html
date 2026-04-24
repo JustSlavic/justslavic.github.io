@@ -144,6 +144,7 @@ const DATA = {
       description: "James Clerk Maxwell publishes 'A Dynamical Theory of the Electromagnetic Field'" },
     { title: "Discovery of the DNA", date: "1953-02-28", topic: "Science & Technology",
       description: "Francis Crick and James Watson at Cambridge University announced the discovery of the DNA double helix structure" },
+    { title: "Invention of Printing press", date: "1440-01-01", topic: "Science & Technology" },
     { title: "Cholera bacteria discovery by Félix-Archimède Pouchet", date: "1849-04-23", topic: "Science & Technology" },
     { title: "Koch rediscovered cholera bacteria and tied it to disease", date: "1884-01-07", topic: "Science & Technology" },
     { title: "Soho cholera outbreak", date: "1854-08-31", topic: "Science & Technology",
@@ -172,7 +173,6 @@ const DATA = {
     { title: "Assassination of JFK", date: "1963-11-22", topic: "Politics & Law" },
     { title: "Moon landing (Apollo 11)", date: "1969-07-20", topic: "Science & Technology" },
     { title: "Fall of the Berlin Wall", date: "1989-11-09", topic: "Revolutions" },
-    { title: "Dissolution of the Soviet Union", date: "1991-12-26", topic: "Revolutions" },
     { title: "9/11 Attacks", date: "2001-09-11", topic: "Wars & Conflicts" },
     { title: "Global Financial Crisis begins", date: "2008-09-15", topic: "Economy" },
     { title: "Unification of Upper and Lower Egypt", date: "-3150-01-01", topic: "Egypt" },
@@ -181,6 +181,15 @@ const DATA = {
     { title: "The world's first movie produced", date: "1888-10-14", topic: "Science & Technology" },
   ],
   periods: [
+    // --------------------------- Wars & Conflicts --------------------------- //
+    { title: "Alexander Pushkin", started: "1799-06-06", ended: "1837-02-10", topic: "People1" },
+    { title: "Ivan Turgenev", started: "1818-11-09", ended: "1883-09-03", topic: "People2" },
+    { title: "Mikhail Bulgakov", started: "1891-05-15", ended: "1940-03-10", topic: "People2" },
+    { title: "Fyodor Dostoevsky", started: "1821-11-11", ended: "1881-02-09", topic: "People3" },
+    { title: "Leo Tolstoy", started: "1828-09-09", ended: "1910-11-20", topic: "People4" },
+    { title: "Mikhail Sholokhov", started: "1905-05-24", ended: "1984-02-21", topic: "People5" },
+    { title: "Anton Chekhov", started: "1860-01-29", ended: "1904-06-15", topic: "People5" },
+
     { title: "Alexander the Great", started: "-0356-07-21", ended: "-0323-06-11", topic: "Wars & Conflicts",
       background: "./images/history/Alexander_the_Great.jpg" },
     { title: "The Crusades", started: "1096-11-27", ended: "1291-05-18", topic: "Wars & Conflicts" },
@@ -202,12 +211,70 @@ const DATA = {
     { title: "American Civil War", started: "1861-04-12", ended: "1865-05-09", topic: "Wars & Conflicts" },
     { title: "First World War", started: "1914-07-28", ended: "1918-11-11", topic: "Wars & Conflicts" },
     { title: "Second World War", started: "1939-09-01", ended: "1945-09-02", topic: "Wars & Conflicts" },
+    { title: "Korean War", started: "1950-06-25", ended: "1953-07-27", topic: "Wars & Conflicts",
+      description: "Armed conflict fought between North Korea (Democratic People's Republic of Korea; DPRK) and South Korea (Republic of Korea; ROK) and their allies. North Korea was supported by China and the Soviet Union, while South Korea was supported by the United Nations led by the United States under the auspices of the United Nations Command (UNC)." },
+    { title: "Vietnam War", started: "1955-11-01", ended: "1975-04-30", topic: "Wars & Conflicts",
+      description: "Armed conflict in Vietnam, Laos, and Cambodia fought between North Vietnam (Democratic Republic of Vietnam) and South Vietnam (Republic of Vietnam) and their allies. North Vietnam was supported by the Soviet Union and China, while South Vietnam was supported by the United States and other anti-communist nations." },
     { title: "Cold War", started: "1947-03-12", ended: "1991-12-26", topic: "Wars & Conflicts" },
+    // {
+    //   title: "Siege of Leningrad",
+    //   started: "1941-09-08",
+    //   ended: "1944-01-27",
+    //   topic: "Wars & Conflicts",
+    // },
     {
-      title: "Siege of Leningrad",
-      started: "1941-09-08",
-      ended: "1944-01-27",
-      topic: "Wars & Conflicts"
+      title: "The Russo-Japanese War",
+      started: "1904-02-08",
+      ended: "1905-09-05",
+      topic: "Wars & Conflicts",
+    },
+    {
+      title: "The Spanish Civil War",
+      started: "1936-07-17",
+      ended: "1939-04-01",
+      topic: "Wars & Conflicts",
+      description: "The Spanish Civil War was fought between the Republicans and the Nationalist rebels. Republicans were loyal to the left-leaning Popular Front government of the Second Spanish Republic and included socialists, anarchists, communists, and separatists, supported by the Soviet Union. The opposing Nationalists were an alliance of fascist Falangists, monarchists, conservatives, and traditionalists, supported by Nazi Germany and Fascist Italy. The Nationalists won the war in early 1939, and ruled Spain until Franco's death in November 1975."
+    },
+    {
+      title: "The Winter War",
+      started: "1939-11-30",
+      ended: "1940-03-13",
+      topic: "Wars & Conflicts",
+      description: "The Winter War was a war between the Soviet Union and Finland. It began with a Soviet invasion of Finland on 30 November 1939, three months after the outbreak of World War II, and ended three and a half months later with the Moscow Peace Treaty on 13 March 1940. Despite superior military strength, especially in tanks and aircraft, the Soviet Union suffered severe losses and initially made little headway.",
+    },
+    {
+      title: "Soviet-Afghan War",
+      started: "1979-12-25",
+      ended: "1989-02-15",
+      topic: "Wars & Conflicts",
+      description: "The Soviet Union and the Afghan military fight against the rebelling Afghan mujahideen, aided by Pakistan. While they were backed by various countries and organizations, the majority of the mujahideen's support came from Pakistan, the United States (as part of Operation Cyclone), the United Kingdom, China, Iran, and the Arab states of the Persian Gulf, in addition to a large influx of foreign fighters known as the Afghan Arabs. American and British involvement on the side of the mujahideen escalated the Cold War, ending a short period of relaxed Soviet Union–United States relations."
+    },
+    {
+      title: "First Chechen War",
+      started: "1994-12-11",
+      ended: "1996-08-31",
+      topic: "Wars & Conflicts",
+      description: "A conflict between the separatist Chechen Republic of Ichkeria and the Russian Federation. During the dissolution of the Soviet Union in late 1991, Chechnya came under the control of a secessionist regime led by Dzhokhar Dudayev. Russian president Boris Yeltsin supported anti-Dudayev militias until 1994, when he launched a military operation to establish constitutional order in Chechnya. The conflict ended in a peace treaty that saw Russian forces withdraw from the territory only for them to invade again three years later sparking the Second Chechen War of 1999–2009."
+    },
+    {
+      title: "Second Chechen War",
+      started: "1999-08-07",
+      ended: "2000-04-30",
+      topic: "Wars & Conflicts",
+      description: "The war took place in Chechnya and the border regions of the North Caucasus between the Russian Federation and the breakaway Chechen Republic of Ichkeria."
+    },
+    {
+      title: "Russo-Georgian War",
+      started: "2008-08-07",
+      ended: "2008-08-12",
+      topic: "Wars & Conflicts",
+      description: "A war waged against Georgia by the Russian Federation and the Russian-backed separatist regions of South Ossetia and Abkhazia."
+    },
+    {
+      title: "Russo-Ukranian War",
+      started: "2022-02-24",
+      ended: "Now",
+      topic: "Wars & Conflicts",
     },
 
     { title: "Cholera pandemic I (1817 – 1824)", started: "1817-01-01", ended: "1824-01-01", topic: "Science & Technology" },
@@ -243,6 +310,7 @@ const DATA = {
     { title: "Grand Duchy of Moscow", started: "1283-01-01", ended: "1547-01-16", topic: "Russia" },
     { title: "Tsardom of Russia", started: "1547-01-16", ended: "1721-11-02", topic: "Russia" },
     { title: "Russian Empire", started: "1721-11-02", ended: "1917-09-01", topic: "Russia" },
+    { title: "The February Revolution", started: "1917-03-08", ended: "1917-03-16", topic: "Russia" },
     { title: "Russian Civil War", started: "1917-11-07", ended: "1922-10-25", topic: "Russia" },
     { title: "USSR", started: "1922-12-30", ended: "1991-12-26", topic: "Russia", background: "./images/history/USSR.png" },
     { title: "Russia", started: "1991-12-26", ended: "Now", topic: "Russia",
